@@ -1,0 +1,27 @@
+Testar Rotas: 
+- Criar Usuários
+
+- Autenticar Usuários 
+	- Show Profile
+	- Update Profile (sem senha) - Show Profile 
+	- Update Profile (com senha) - Show Profile
+	- Update Profile (com senha) - Autenticar Usuários 
+	- Update Avatar - Show Profile
+
+- Forgot Password (Ver Link)
+- Reset Password
+	- Autenticar Usuários 
+
+- Autenticar Usuários 
+	- List Providers (Todos os usuários exceto o logado)
+	- Month Availability (Ver dias do mes disponiveis - ver se é mes 0 ou 1)
+	- Day Availability (Ver Horas do dia disponiveis)
+	- Create Appointments (Vários)
+
+- Autenticar Usuários (provider) 
+	- List Provider Appointments
+	
+
+
+TODO:
+Rever Mongo e Redis. 
