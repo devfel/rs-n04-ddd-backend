@@ -24,4 +24,5 @@ Testar Rotas:
 
 
 TODO:
-Rever Mongo e Redis. 
+Funcionalidade no Mongo com mensagens de aviso de appointments criados.
+Funcionalidade no Redis com cache para list providers por exemplo.
