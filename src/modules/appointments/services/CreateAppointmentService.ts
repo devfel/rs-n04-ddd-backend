@@ -1,18 +1,17 @@
-import { injectable, inject } from 'tsyringe';
 import { startOfHour, isBefore, getHours, format } from 'date-fns';
+import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
+import Appointment from '../infra/typeorm/entities/Appointment';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
-import Appointment from '../infra/typeorm/entities/Appointment';
-
 interface IRequest {
-  date: Date;
   provider_id: string;
   user_id: string;
+  date: Date;
 }
 
 @injectable()
@@ -36,7 +35,7 @@ class CreateAppointmentService {
     const appointmentDate = startOfHour(date);
 
     if (isBefore(appointmentDate, Date.now())) {
-      throw new AppError("You can't create an appointment on a past date.");
+      throw new AppError("You can't create an appointemnt on a past date.");
     }
 
     if (user_id === provider_id) {
@@ -45,12 +44,13 @@ class CreateAppointmentService {
 
     if (getHours(appointmentDate) < 8 || getHours(appointmentDate) > 17) {
       throw new AppError(
-        'You can only create appontments between 8am and 5pm.',
+        'You can only create appointments between 8am and 5pm',
       );
     }
 
     const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
       appointmentDate,
+      provider_id,
     );
 
     if (findAppointmentInSameDate) {
@@ -63,7 +63,7 @@ class CreateAppointmentService {
       date: appointmentDate,
     });
 
-    const dateFormatted = format(appointment.date, "dd/MM/yyyy 'às' HH:mm'h'");
+    const dateFormatted = format(appointmentDate, "dd/MM/yyyy 'às' HH:mm'h'");
 
     await this.notificationsRepository.create({
       recipient_id: provider_id,
